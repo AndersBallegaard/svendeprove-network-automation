@@ -1,0 +1,11 @@
+vrf definition {{ VRF_NAME }}
+rd {{ loopback0 }}:{{ RD }}
+route-target both {{ ASN }}:{{ RD }}
+address-family ipv4
+exit
+exit
+
+router bgp {{ ASN }}
+address-family ipv4 vrf {{ VRF_NAME }}
+redistribute connected
+redistribute static

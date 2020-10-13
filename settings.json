@@ -1,0 +1,7 @@
+{
+    "ssh_username": "netscript",
+    "ssh_password": "P\"ssw0rd2020",
+    "seed_device_ip": "100.127.0.6",
+    "network_name": "EUCSoft POC",
+    "overlay_config": "overlay.json"
+}

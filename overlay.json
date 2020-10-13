@@ -1,0 +1,97 @@
+{
+    "ASN": 65001,
+    "PEDevicePattern": "(?:EDGE|DIST|DC-RT)-.*",
+    "countryDetection": {
+        "Denmark": ".*"
+    },
+    "VRFs": {
+        "CLIENTS":  {
+            "RD": 1001,
+            "vlan_range": "10-19",
+            "supernets": {
+                "Denmark": "10.1.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "GUEST":  {
+            "RD": 1002,
+            "vlan_range": "20-29",
+            "supernets": {
+                "Denmark": "10.11.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "MEDARBEJDER":  {
+            "RD": 1003,
+            "vlan_range": "30-39",
+            "supernets": {
+                "Denmark": "10.21.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "PRINT":  {
+            "RD": 1004,
+            "vlan_range": "40-40",
+            "supernets": {
+                "Denmark": "10.31.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "TEKNIK":  {
+            "RD": 1005,
+            "vlan_range": "41-41",
+            "supernets": {
+                "Denmark": "10.41.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "TRUST":  {
+            "RD": 1006,
+            "vlan_range": "50-59",
+            "supernets": {
+                "Denmark": "10.51.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "SEMITRUST":  {
+            "RD": 1007,
+            "vlan_range": "60-69",
+            "supernets": {
+                "Denmark": "10.61.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "UNTRUST":  {
+            "RD": 1008,
+            "vlan_range": "70-79",
+            "supernets": {
+                "Denmark": "10.71.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "MANAGEMENT":  {
+            "RD": 1009,
+            "vlan_range": "100-100",
+            "supernets": {
+                "Denmark": "10.81.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "QUARANTINE":  {
+            "RD": 1010,
+            "vlan_range": "105-105",
+            "supernets": {
+                "Denmark": "10.91.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "ADMINISTRATION":  {
+            "RD": 1011,
+            "vlan_range": "110-119",
+            "supernets": {
+                "Denmark": "10.101.0.0/16"
+            },
+            "prefix_size": 24
+        }
+    }
+}
