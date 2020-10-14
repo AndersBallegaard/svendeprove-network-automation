@@ -23,6 +23,14 @@ class Network:
             list: Returns of list of hostnames (str)
         """
         return [x.hostname for x in self.devices]
+    
+    def getAllIPAddresses(self):
+        """Get's the ip's of all devices in the networks inventory
+
+        Returns:
+            list: Returns of list of ip's (str)
+        """
+        return [x.ip for x in self.devices]
 
     def add(self, ip, hostname, username, password, device_type="IOS"):
         SupportedDevices = {"IOS": CiscoIOSDevice}
@@ -37,10 +45,13 @@ class Network:
 
     def discoverFromIOSSeed(self, ip, username, password):
         discoveryQueue = [ip]
+        dip = None
         while len(discoveryQueue) != 0:
             try:
                 dip = discoveryQueue.pop(0)
                 if dip == "":
+                    continue
+                if dip in self.getAllIPAddresses():
                     continue
                 print(
                     f"network devices: {len(self.devices)}, queue size: {len(discoveryQueue)}"
@@ -61,15 +72,19 @@ class Network:
 
                 if hostname in self.getAllHostnames():
                     continue
-
-                # Get CDP information
-                cdp_ne = dev.send_command("show cdp neighbors detail", use_textfsm=True)
-
+                
                 self.add(dip, hostname, username, password)
-                [discoveryQueue.append(x.get("management_ip")) for x in cdp_ne]
+
+                # Get ospf neightboughs
+                # This assumes the neighbor id is a valid ip address for the machine
+                ospf_ne = dev.send_command("show ip ospf neighbor", use_textfsm=True)
+                [discoveryQueue.append(x.get("neighbor_id")) for x in ospf_ne]
+                # Deduplicate queue
+                discoveryQueue = list(set(discoveryQueue))
+
                 dev.disconnect()
 
             except NetMikoTimeoutException:
-                pass
+                print(f"{dip}: Got a timeout")
             except Exception as e:
-                print(e)
+                print(f"{dip}: {e}")

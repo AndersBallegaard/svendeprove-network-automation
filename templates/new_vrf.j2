@@ -7,5 +7,6 @@ exit
 
 router bgp {{ ASN }}
 address-family ipv4 vrf {{ VRF_NAME }}
+maximum-path 2
 redistribute connected
 redistribute static
