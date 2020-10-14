@@ -1,4 +1,6 @@
 class Device:
+    """Base class for devices"""
+
     def __init__(self):
         self.hostname = "NOT IMPLEMENTED"
 

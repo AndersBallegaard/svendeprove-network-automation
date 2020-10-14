@@ -92,6 +92,22 @@
                 "Denmark": "10.101.0.0/16"
             },
             "prefix_size": 24
+        },
+        "INET":  {
+            "RD": 1012,
+            "vlan_range": "120-120",
+            "supernets": {
+                "Denmark": "10.111.0.0/16"
+            },
+            "prefix_size": 24
+        },
+        "BACKUP":  {
+            "RD": 1013,
+            "vlan_range": "121-121",
+            "supernets": {
+                "Denmark": "10.121.0.0/16"
+            },
+            "prefix_size": 24
         }
     }
 }

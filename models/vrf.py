@@ -31,5 +31,8 @@ class VRF:
 
     def getAndRegisterNetwork(self, country, hostname):
         s = self.subnets[country].pop(0)
-        ipam.add_network(str(s.network_address), str(s.netmask), hostname)
+        try:
+            ipam.add_network(str(s.network_address), str(s.netmask), hostname)
+        except ValueError:
+            s = self.getAndRegisterNetwork(country, hostname)
         return s

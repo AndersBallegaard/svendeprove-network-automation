@@ -1,24 +1,8 @@
 #!/usr/bin/python3
-from jinja2 import Template
+import time
 from models.overlay import Overlay
 from modules.discover import Network
 from modules.utilities.settings import Settings
-
-def add_vrf(device_obj, username, password, vrf_obj):
-    print(f"Creating vrf {vrf_obj.name} on {device_obj.hostname}")
-    device_obj.create_conn(username, password)
-    int_br = device_obj.conn.send_command("show ip interface brief", use_textfsm=True)
-    loopback0_obj = list(filter(lambda x: x["intf"] == "Loopback0", int_br))
-    if len(loopback0_obj) == 0:
-        raise ValueError(f"{device_obj.hostname} needs a loopback0 interface with ip")
-    
-    template = Template(open('templates/new_vrf.j2').read())
-
-    device_config = template.render(VRF_NAME=vrf_obj.name, loopback0=loopback0_obj[0]["ipaddr"], RD=vrf_obj.RD, ASN=vrf_obj.ASN)
-
-    device.conn.send_config_set(device_config.split("\n"))
-    device.conn.disconnect()
-
 
 
 if __name__ == "__main__":
@@ -28,31 +12,62 @@ if __name__ == "__main__":
 
     net = Network(settings.get("network_name", "network"))
 
-    # Code for auto discovery
-    # print("Starting network discovery")
-    # net.discoverFromIOSSeed(settings.get("seed_device_ip"), username, password)
+    # Code for auto discovery using CDP
+    print("Starting network discovery")
+    net.discoverFromIOSSeed(settings.get("seed_device_ip"), username, password)
 
     # Testing devices
-    net.add("100.127.0.6", "EDGE-2", username, password)
+    # net.add("100.127.0.6", "EDGE-2", username, password)
+    # net.add("100.127.0.3", "DIST-01", username, password)
 
+    # Give IOS some time to close SSH connections propperly
+    time.sleep(5)
+    print("Starting configuration")
     # Load overlay config
     overlay = Overlay(settings.get("overlay_config"))
 
-    # Who needs what
+    # Build the overlay from the overlay specification
     for device in net.devices:
+        # Ignore devices that are not designated to be PE Nodes
         if not overlay.deviceIsPE(device.hostname):
             continue
 
         for vrf in overlay.vrfs:
-            add_vrf(device, username, password, vrf)
+            # Add VRF to device
+            device.add_vrf(vrf)
 
+            # Find device country, the logic behind this is defined in the overlay specification
             country = overlay.findCountryFromHostname(device.hostname)
 
+            # Add SVI's inside VRF
+            have_bdis = False
             start_vlan = int(vrf.vlan_range.split("-")[0])
             stop_vlan = int(vrf.vlan_range.split("-")[1]) + 1
-            for vlan in range(start_vlan, stop_vlan):
+            if "DIST-" in device.hostname.upper():
+                have_bdis = True
+                for vlan in range(start_vlan, stop_vlan):
+                    subnet = vrf.getAndRegisterNetwork(country, device.hostname)
+                    print(
+                        f"{device.hostname} - {vrf.name} - vlan{vlan} - {subnet.with_prefixlen}"
+                    )
+                    device.add_interface(
+                        vrf.name,
+                        "svi",
+                        vlan,
+                        str(list(subnet.hosts())[0]),
+                        str(subnet.netmask),
+                    )
+            # DC-RT should probably be handeled in a diffrent way, but good enough for POC
+            if "EDGE-" in device.hostname.upper() or "DC-RT" in device.hostname.upper():
+                have_bdis = True
                 subnet = vrf.getAndRegisterNetwork(country, device.hostname)
-                print(
-                    f"{device.hostname} - {vrf.name} - vlan{vlan} - {subnet.with_prefixlen}"
+                device.add_interface(
+                    vrf.name,
+                    "loopback",
+                    start_vlan,
+                    str(list(subnet.hosts())[0]),
+                    str(subnet.netmask),
                 )
-                
+
+            if not have_bdis:
+                print(f"The following device did not get any BDI's in VRF {vrf.name}: {device.hostname}")

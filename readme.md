@@ -1,3 +1,6 @@
+# Overlay netværk automatisering
+Dette script opretter automatisk VRF'er, og BDI'er på et netværk. Netværks enheder er auto discovered via CDP, 
+
 ## Setup
 ### Install NTCTemplates
 ```bash

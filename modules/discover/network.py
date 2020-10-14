@@ -8,10 +8,20 @@ from modules.devices.cisco import CiscoIOSDevice
 
 class Network:
     def __init__(self, name="Network"):
+        """Stores related information to a network, and discoveres devices
+
+        Args:
+            name (str, optional): Network name. Defaults to "Network".
+        """
         self.name = name
         self.devices = []
 
     def getAllHostnames(self):
+        """Get's the hostnames of all devices in the networks inventory
+
+        Returns:
+            list: Returns of list of hostnames (str)
+        """
         return [x.hostname for x in self.devices]
 
     def add(self, ip, hostname, username, password, device_type="IOS"):
