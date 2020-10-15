@@ -1,4 +1,5 @@
 interface vlan {{ vlan_id }}
 vrf forwarding {{ VRF_name }}
 ip add {{ ip_address }} {{ netmask }}
+ipv6 add {{ ipv6_address }}/{{ prefix_size }}
 no sh

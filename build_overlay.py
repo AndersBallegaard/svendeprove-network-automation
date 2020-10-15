@@ -47,8 +47,9 @@ if __name__ == "__main__":
                 have_bdis = True
                 for vlan in range(start_vlan, stop_vlan):
                     subnet = vrf.getAndRegisterNetwork(country, device.hostname)
+                    subnet_v6 = vrf.getAndRegisterV6Network(country, device.hostname)
                     print(
-                        f"{device.hostname} - {vrf.name} - vlan{vlan} - {subnet.with_prefixlen}"
+                        f"{device.hostname} - {vrf.name} - vlan{vlan} - {subnet.with_prefixlen} - {subnet_v6.with_prefixlen}"
                     )
                     device.add_interface(
                         vrf.name,
@@ -56,17 +57,22 @@ if __name__ == "__main__":
                         vlan,
                         str(list(subnet.hosts())[0]),
                         str(subnet.netmask),
+                        str(subnet_v6.network_address),
+                        str(subnet_v6.prefixlen)
                     )
             # DC-RT should probably be handeled in a diffrent way, but good enough for POC
             if "EDGE-" in device.hostname.upper() or "DC-RT" in device.hostname.upper():
                 have_bdis = True
                 subnet = vrf.getAndRegisterNetwork(country, device.hostname)
+                subnet_v6 = vrf.getAndRegisterV6Network(country, device.hostname)
                 device.add_interface(
                     vrf.name,
                     "loopback",
                     start_vlan,
                     str(list(subnet.hosts())[0]),
                     str(subnet.netmask),
+                    str(subnet_v6.network_address),
+                    str(subnet_v6.prefixlen)
                 )
 
             if not have_bdis:

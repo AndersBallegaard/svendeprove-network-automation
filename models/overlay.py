@@ -13,7 +13,9 @@ class Overlay:
                 x["RD"],
                 x["vlan_range"],
                 x["supernets"],
+                x["supernets_v6"],
                 prefix_size=x["prefix_size"],
+                prefix_size_v6=x["prefix_size_v6"]
             )
             for name, x in self.overlay_config["VRFs"].items()
         ]

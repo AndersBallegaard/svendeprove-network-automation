@@ -1,7 +1,10 @@
+ipv6 unicast-routing
 vrf definition {{ VRF_NAME }}
 rd {{ loopback0 }}:{{ RD }}
 route-target both {{ ASN }}:{{ RD }}
 address-family ipv4
+exit
+address-family ipv6
 exit
 exit
 
@@ -10,3 +13,9 @@ address-family ipv4 vrf {{ VRF_NAME }}
 maximum-path 2
 redistribute connected
 redistribute static
+exit
+address-family ipv6 vrf {{ VRF_NAME }}
+maximum-path 2
+redistribute connected
+redistribute static
+exit
