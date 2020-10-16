@@ -1,0 +1,12 @@
+                                                                                             
+Add-DhcpServerv4Scope -StartRange {{ ipv4_start }} -EndRange {{ ipv4_end }} -SubnetMask {{ netmask }} -Name "{{ VRF_name }} - {{ ipv4_networkaddress }}" -ComputerName {{ primary_dc }}
+Set-DhcpServerv4OptionValue -ScopeId "{{ ipv4_networkaddress }}" -DnsServer {{ dns_v4_1 }},{{ dns_v4_2 }} -Router {{ ipv4_router }} -ComputerName {{ primary_dc }}
+Add-DhcpServerv4Failover -ComputerName {{ primary_dc }} -PartnerServer {{ secoundary_dc }} -ScopeId {{ ipv4_networkaddress }} -Name "{{ ipv4_networkaddress }}"
+
+
+Add-DhcpServerv6Scope -ComputerName {{ primary_dc }} -Prefix {{ ipv6_prefix }} -Name "{{ VRF_name }} - {{ ipv6_prefix }}"
+Set-DhcpServerv6OptionValue -DnsServer {{ dns_v6_1 }},{{ dns_v6_2 }} -ComputerName {{ primary_dc }} -Prefix {{ ipv6_prefix }} -Force
+Add-DhcpServerv6Scope -ComputerName {{ secoundary_dc }} -Prefix {{ ipv6_prefix }} -Name "{{ VRF_name }} - {{ ipv6_prefix }}"
+Set-DhcpServerv6OptionValue -DnsServer {{ dns_v6_1 }},{{ dns_v6_2 }} -ComputerName {{ secoundary_dc }} -Prefix {{ ipv6_prefix }} -Force
+
+

@@ -1,0 +1,10 @@
+                                                                                                  
+Add-DhcpServerv4Scope -StartRange 10.1.0.2 -EndRange 10.1.0.10 -SubnetMask 255.255.255.0 -Name "TEST01" -ComputerName dc-dk-00
+Set-DhcpServerv4OptionValue -ScopeId "10.1.0.0" -DnsServer 10.135.15.76,10.135.15.77 -Router 10.1.0.1 -ComputerName dc-dk-00
+Add-DhcpServerv4Failover -ComputerName dc-dk-00 -PartnerServer dc-dk-01 -ScopeId 10.1.0.0 -Name "10.1.0.0"
+
+
+Add-DhcpServerv6Scope -ComputerName dc-dk-00 -Prefix 2001:db8:: -Name "TESTv6"
+Set-DhcpServerv6OptionValue -DnsServer 2620:119:53::53,2620:119:53::35 -ComputerName dc-dk-00 -Prefix 2001:db8:: -Force
+Add-DhcpServerv6Scope -ComputerName dc-dk-01 -Prefix 2001:db8:: -Name "TESTv6"
+Set-DhcpServerv6OptionValue -DnsServer 2620:119:53::53,2620:119:53::35 -ComputerName dc-dk-01 -Prefix 2001:db8:: -Force

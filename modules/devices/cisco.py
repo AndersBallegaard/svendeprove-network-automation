@@ -64,7 +64,9 @@ class CiscoIOSDevice(base.Device):
         self.conn.send_config_set(device_config.split("\n"))
         self.conn.disconnect()
 
-    def add_interface(self, vrf_name, int_type, int_id, ip_address, netmask, ipv6_address, v6_prefix):
+    def add_interface(
+        self, vrf_name, int_type, int_id, ip_address, netmask, ipv6_address, v6_prefix
+    ):
         """Adds a BDI to a device
 
         Args:
@@ -86,7 +88,12 @@ class CiscoIOSDevice(base.Device):
         self.create_conn()
         template = Template(open(interface_template_matrix[int_type]).read())
         device_config = template.render(
-            vlan_id=int_id, VRF_name=vrf_name, ip_address=ip_address, netmask=netmask, ipv6_address=ipv6_address, prefix_size=v6_prefix
+            vlan_id=int_id,
+            VRF_name=vrf_name,
+            ip_address=ip_address,
+            netmask=netmask,
+            ipv6_address=ipv6_address,
+            prefix_size=v6_prefix,
         )
         self.conn.send_config_set(device_config.split("\n"))
         self.conn.disconnect()

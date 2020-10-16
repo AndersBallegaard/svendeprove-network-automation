@@ -5,7 +5,17 @@ ipam = IPAM()
 
 
 class VRF:
-    def __init__(self, name, ASN, RD, vlan_range, supernets, supernets_v6, prefix_size=24, prefix_size_v6=64):
+    def __init__(
+        self,
+        name,
+        ASN,
+        RD,
+        vlan_range,
+        supernets,
+        supernets_v6,
+        prefix_size=24,
+        prefix_size_v6=64,
+    ):
         self.name = name
         self.ASN = ASN
         self.RD = RD
@@ -55,7 +65,7 @@ class VRF:
         except ValueError:
             s = self.getAndRegisterNetwork(country, hostname)
         return s
-    
+
     def getAndRegisterV6Network(self, country, hostname):
         s = self.subnets_v6[country].pop(0)
         try:
@@ -63,5 +73,3 @@ class VRF:
         except ValueError:
             s = self.getAndRegisterNetwork(country, hostname)
         return s
-    
-    

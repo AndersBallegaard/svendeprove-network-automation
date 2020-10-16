@@ -23,7 +23,7 @@ class Network:
             list: Returns of list of hostnames (str)
         """
         return [x.hostname for x in self.devices]
-    
+
     def getAllIPAddresses(self):
         """Get's the ip's of all devices in the networks inventory
 
@@ -72,7 +72,7 @@ class Network:
 
                 if hostname in self.getAllHostnames():
                     continue
-                
+
                 self.add(dip, hostname, username, password)
 
                 # Get ospf neightboughs
