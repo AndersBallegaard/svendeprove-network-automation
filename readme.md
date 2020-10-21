@@ -14,6 +14,12 @@ source ~/.bashrc
 pip3 install -r requirements.txt
 ```
 
+### Create settings file
+```bash
+cp settings.json.example settings.json
+# Change the settings.json file
+```
+
 ## Usage
 By default the script uses a seed device to discover all devices in the underlay using OSPF neighbors, regex is then used to determine if a node should be a PE node. Using a new or existing IPAM DB, and an overlay network specification the overlay is then created. 
 

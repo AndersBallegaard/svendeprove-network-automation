@@ -1,3 +1,4 @@
+import re
 import ipaddress
 from modules.IPAM.SQLIteIPAM import IPAM
 
@@ -26,6 +27,8 @@ class VRF:
         self.prefix_size_v6 = prefix_size_v6
         self.subnets = {}
         self.subnets_v6 = {}
+
+
         for country, supernet in self.supernets.items():
             self.subnets[country] = []
             for subnet in list(
