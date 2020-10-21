@@ -1,0 +1,14 @@
+{
+    "ssh_username": "netscript",
+    "ssh_password": "INSERT PASSWORD HERE",
+    "seed_device_ip": "100.127.0.6",
+    "network_name": "EUCSoft POC",
+    "overlay_config": "overlay.json",
+    "powershell_output_file": "dhcp.ps1",
+    "primary_dhcp_dk": "dc-dk-00",
+    "secoundary_dhcp_dk": "dc-dk-01",
+    "dns_v4_1_dk": "10.135.15.76",
+    "dns_v4_2_dk": "10.135.15.77",
+    "dns_v6_1_dk": "1:1:1::1",
+    "dns_v6_2_dk": "2:2:2::2"
+}

@@ -23,6 +23,23 @@ def add_dhcp_powershell_commands(
     dns_v6_1,
     dns_v6_2,
 ):
+    """Generates powershell code to create all dhcp scopes on a server
+
+    Args:
+        ipv4_start (str): Start ipv4 in the scope
+        ipv4_end (str): End ipv4 in the scope
+        netmask (): Netmask for the network
+        VRF_name (str): Name of the VRF the network is in
+        ipv4_networkaddresses (str): Network address for the network
+        primary_dc (str): Name of the primary DHCP server, this should be a usable domain name
+        dns_v4_1 (str): DNS Server for the scope
+        dns_v4_2 (str): 2nd DNS server for the scope
+        ipv4_router (str): Default gateway address
+        secoundary_dc (str): Secoundary DHCP server
+        ipv6_prefix (str): ipv6 prefix WITHOUT prefix lenght
+        dns_v6_1 (str): DNS Server
+        dns_v6_2 (str): 2nd DNS server
+    """
     template = Template(open("templates/powershell_dhcp.j2").read())
     config = template.render(
         ipv4_start=ipv4_start,
@@ -64,6 +81,10 @@ if __name__ == "__main__":
     # Load overlay config
     overlay = Overlay(settings.get("overlay_config"))
 
+    country_to_3166_alpha2 = {
+        "Denmark": "dk"
+    }
+
     # Build the overlay from the overlay specification
     for device in net.devices:
         # Ignore devices that are not designated to be PE Nodes
@@ -84,6 +105,7 @@ if __name__ == "__main__":
             if "DIST-" in device.hostname.upper():
                 HAVE_NETWORKS = True
                 for vlan in range(start_vlan, stop_vlan):
+                    alpha_2 = country_to_3166_alpha2[country]
                     subnet = vrf.getAndRegisterNetwork(country, device.hostname)
                     subnet_v6 = vrf.getAndRegisterV6Network(country, device.hostname)
                     print(
@@ -104,14 +126,14 @@ if __name__ == "__main__":
                         netmask=str(subnet.netmask),
                         VRF_name=vrf.name,
                         ipv4_networkaddresses=subnet.network_address,
-                        primary_dc=settings.get("primary_dhcp"),
-                        dns_v4_1=settings.get("dns_v4_1"),
-                        dns_v4_2=settings.get("dns_v4_2"),
+                        primary_dc=settings.get(f"primary_dhcp_{alpha_2}"),
+                        dns_v4_1=settings.get(f"dns_v4_1_{alpha_2}"),
+                        dns_v4_2=settings.get(f"dns_v4_2_{alpha_2}"),
                         ipv4_router=list(subnet.hosts())[0],
-                        ipv6_prefix=subnet_v6.with_prefixlen,
-                        secoundary_dc=settings.get("secoundary_dhcp"),
-                        dns_v6_1=settings.get("dns_v6_1"),
-                        dns_v6_2=settings.get("dns_v6_2"),
+                        ipv6_prefix=subnet_v6.network_address,
+                        secoundary_dc=settings.get(f"secoundary_dhcp_{alpha_2}"),
+                        dns_v6_1=settings.get(f"dns_v6_1_{alpha_2}"),
+                        dns_v6_2=settings.get(f"dns_v6_2_{alpha_2}"),
                     )
             # DC-RT should probably be handeled in a diffrent way, but good enough for POC
             if "EDGE-" in device.hostname.upper() or "DC-RT" in device.hostname.upper():
