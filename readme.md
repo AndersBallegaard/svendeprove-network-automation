@@ -29,3 +29,11 @@ To start building an overlay, run the following command after overlay.json and s
 ```bash
 python3 build_overlay.py
 ```
+
+## TODO/Future features
+This is a list of features yet to be implemented
+* ZTP/PnP of network equipment
+* Better intigration with DHCP Servers
+* Move to a propper IPAM like netbox or infoblox
+* Add firewall automation
+* Improve vlan naming
