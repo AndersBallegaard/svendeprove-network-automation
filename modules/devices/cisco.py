@@ -1,6 +1,7 @@
 from jinja2 import Template
 from netmiko import ConnectHandler
 from modules.devices import base
+from datetime import datetime
 
 
 class CiscoIOSDevice(base.Device):
@@ -97,3 +98,10 @@ class CiscoIOSDevice(base.Device):
         )
         self.conn.send_config_set(device_config.split("\n"))
         self.conn.disconnect()
+    
+    def backup_config(self):
+        self.create_conn()
+        runn_conf = self.conn.send_command("show run")
+        with open(f"config_backup/{self.hostname}-{datetime.now().isoformat()}", "w") as f:
+            f.write(runn_conf)
+

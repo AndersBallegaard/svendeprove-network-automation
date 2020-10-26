@@ -1,0 +1,910 @@
+
+Building configuration...
+
+Current configuration : 20459 bytes
+!
+! Last configuration change at 06:27:29 UTC Fri Oct 23 2020
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname DIST-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition ADMINISTRATION
+ rd 100.127.0.3:1011
+ route-target export 65001:1011
+ route-target import 65001:1011
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition BACKUP
+ rd 100.127.0.3:1013
+ route-target export 65001:1013
+ route-target import 65001:1013
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition CLIENTS
+ rd 100.127.0.3:1001
+ route-target export 65001:1001
+ route-target import 65001:1001
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition GUEST
+ rd 100.127.0.3:1002
+ route-target export 65001:1002
+ route-target import 65001:1002
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition INET
+ rd 100.127.0.3:1012
+ route-target export 65001:1012
+ route-target import 65001:1012
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition MANAGEMENT
+ rd 100.127.0.3:1009
+ route-target export 65001:1009
+ route-target import 65001:1009
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition MEDARBEJDER
+ rd 100.127.0.3:1003
+ route-target export 65001:1003
+ route-target import 65001:1003
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition PRINT
+ rd 100.127.0.3:1004
+ route-target export 65001:1004
+ route-target import 65001:1004
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition QUARANTINE
+ rd 100.127.0.3:1010
+ route-target export 65001:1010
+ route-target import 65001:1010
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition SEMITRUST
+ rd 100.127.0.3:1007
+ route-target export 65001:1007
+ route-target import 65001:1007
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition TEKNIK
+ rd 100.127.0.3:1005
+ route-target export 65001:1005
+ route-target import 65001:1005
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition TRUST
+ rd 100.127.0.3:1006
+ route-target export 65001:1006
+ route-target import 65001:1006
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition UNTRUST
+ rd 100.127.0.3:1008
+ route-target export 65001:1008
+ route-target import 65001:1008
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+username netscript privilege 15 secret 5 $1$MJQN$AStgbJbgroIPd/IIdnxP91
+no aaa new-model
+!
+!
+!
+!
+!
+ip arp inspection vlan 1-1000
+ip arp inspection validate src-mac dst-mac ip allow zeros 
+!
+!
+!
+ip dhcp snooping vlan 1-1000
+no ip dhcp snooping information option
+ip dhcp snooping database flash:/DHCPSnoopDB
+ip dhcp snooping
+ip domain-name net.eucsoft.com
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+mpls label protocol ldp
+mpls ldp session protection
+mpls ldp igp sync holddown 100
+!
+!
+!
+spanning-tree mode mst
+spanning-tree portfast edge default
+spanning-tree portfast edge bpduguard default
+spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name Site-01
+ instance 1 vlan 40-49, 100, 105, 110-119
+!
+spanning-tree mst 0 priority 24576
+spanning-tree mst 1 priority 28672
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 100.127.0.3 255.255.255.255
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+!
+interface Port-channel1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ ip arp inspection trust
+ ip dhcp snooping trust
+!
+interface GigabitEthernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ ip arp inspection trust
+ no negotiation auto
+ ip dhcp snooping trust
+!
+interface GigabitEthernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ ip arp inspection trust
+ no negotiation auto
+ ip dhcp snooping trust
+!
+interface GigabitEthernet0/2
+ no switchport
+ ip address 10.255.0.3 255.255.255.254
+ ip ospf message-digest-key 1 md5 OSPF
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ negotiation auto
+ mpls ip
+!
+interface GigabitEthernet0/3
+ no switchport
+ ip address 10.255.0.9 255.255.255.254
+ ip ospf message-digest-key 1 md5 OSPF
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ negotiation auto
+ mpls ip
+!
+interface GigabitEthernet1/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ ip arp inspection trust
+ no negotiation auto
+ channel-group 1 mode active
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/1
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ negotiation auto
+!
+interface Vlan10
+ vrf forwarding CLIENTS
+ ip address 10.1.15.1 255.255.255.0
+ standby 10 priority 110
+ standby 10 preempt
+ ipv6 address 2001:DB8:1001:E::/64
+!
+interface Vlan11
+ vrf forwarding CLIENTS
+ ip address 10.1.16.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:F::/64
+!
+interface Vlan12
+ vrf forwarding CLIENTS
+ ip address 10.1.17.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:10::/64
+!
+interface Vlan13
+ vrf forwarding CLIENTS
+ ip address 10.1.18.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:11::/64
+!
+interface Vlan14
+ vrf forwarding CLIENTS
+ ip address 10.1.19.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:12::/64
+!
+interface Vlan15
+ vrf forwarding CLIENTS
+ ip address 10.1.20.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:13::/64
+!
+interface Vlan16
+ vrf forwarding CLIENTS
+ ip address 10.1.21.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:14::/64
+!
+interface Vlan17
+ vrf forwarding CLIENTS
+ ip address 10.1.22.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:15::/64
+!
+interface Vlan18
+ vrf forwarding CLIENTS
+ ip address 10.1.23.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:16::/64
+!
+interface Vlan19
+ vrf forwarding CLIENTS
+ ip address 10.1.24.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:17::/64
+!
+interface Vlan20
+ vrf forwarding GUEST
+ ip address 10.11.14.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:E::/64
+!
+interface Vlan21
+ vrf forwarding GUEST
+ ip address 10.11.15.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:F::/64
+!
+interface Vlan22
+ vrf forwarding GUEST
+ ip address 10.11.16.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:10::/64
+!
+interface Vlan23
+ vrf forwarding GUEST
+ ip address 10.11.17.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:11::/64
+!
+interface Vlan24
+ vrf forwarding GUEST
+ ip address 10.11.18.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:12::/64
+!
+interface Vlan25
+ vrf forwarding GUEST
+ ip address 10.11.19.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:13::/64
+!
+interface Vlan26
+ vrf forwarding GUEST
+ ip address 10.11.20.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:14::/64
+!
+interface Vlan27
+ vrf forwarding GUEST
+ ip address 10.11.21.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:15::/64
+!
+interface Vlan28
+ vrf forwarding GUEST
+ ip address 10.11.22.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:16::/64
+!
+interface Vlan29
+ vrf forwarding GUEST
+ ip address 10.11.23.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:17::/64
+!
+interface Vlan30
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.14.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:E::/64
+!
+interface Vlan31
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.15.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:F::/64
+!
+interface Vlan32
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.16.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:10::/64
+!
+interface Vlan33
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.17.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:11::/64
+!
+interface Vlan34
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.18.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:12::/64
+!
+interface Vlan35
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.19.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:13::/64
+!
+interface Vlan36
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.20.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:14::/64
+!
+interface Vlan37
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.21.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:15::/64
+!
+interface Vlan38
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.22.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:16::/64
+!
+interface Vlan39
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.23.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:17::/64
+!
+interface Vlan40
+ vrf forwarding PRINT
+ ip address 10.31.5.1 255.255.255.0
+ ipv6 address 2001:DB8:1004:5::/64
+!
+interface Vlan41
+ vrf forwarding TEKNIK
+ ip address 10.41.5.1 255.255.255.0
+ ipv6 address 2001:DB8:1005:5::/64
+!
+interface Vlan50
+ vrf forwarding TRUST
+ ip address 10.51.14.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:E::/64
+!
+interface Vlan51
+ vrf forwarding TRUST
+ ip address 10.51.15.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:F::/64
+!
+interface Vlan52
+ vrf forwarding TRUST
+ ip address 10.51.16.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:10::/64
+!
+interface Vlan53
+ vrf forwarding TRUST
+ ip address 10.51.17.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:11::/64
+!
+interface Vlan54
+ vrf forwarding TRUST
+ ip address 10.51.18.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:12::/64
+!
+interface Vlan55
+ vrf forwarding TRUST
+ ip address 10.51.19.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:13::/64
+!
+interface Vlan56
+ vrf forwarding TRUST
+ ip address 10.51.20.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:14::/64
+!
+interface Vlan57
+ vrf forwarding TRUST
+ ip address 10.51.21.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:15::/64
+!
+interface Vlan58
+ vrf forwarding TRUST
+ ip address 10.51.22.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:16::/64
+!
+interface Vlan59
+ vrf forwarding TRUST
+ ip address 10.51.23.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:17::/64
+!
+interface Vlan60
+ vrf forwarding SEMITRUST
+ ip address 10.61.14.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:E::/64
+!
+interface Vlan61
+ vrf forwarding SEMITRUST
+ ip address 10.61.15.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:F::/64
+!
+interface Vlan62
+ vrf forwarding SEMITRUST
+ ip address 10.61.16.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:10::/64
+!
+interface Vlan63
+ vrf forwarding SEMITRUST
+ ip address 10.61.17.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:11::/64
+!
+interface Vlan64
+ vrf forwarding SEMITRUST
+ ip address 10.61.18.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:12::/64
+!
+interface Vlan65
+ vrf forwarding SEMITRUST
+ ip address 10.61.19.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:13::/64
+!
+interface Vlan66
+ vrf forwarding SEMITRUST
+ ip address 10.61.20.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:14::/64
+!
+interface Vlan67
+ vrf forwarding SEMITRUST
+ ip address 10.61.21.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:15::/64
+!
+interface Vlan68
+ vrf forwarding SEMITRUST
+ ip address 10.61.22.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:16::/64
+!
+interface Vlan69
+ vrf forwarding SEMITRUST
+ ip address 10.61.23.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:17::/64
+!
+interface Vlan70
+ vrf forwarding UNTRUST
+ ip address 10.71.14.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:E::/64
+!
+interface Vlan71
+ vrf forwarding UNTRUST
+ ip address 10.71.15.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:F::/64
+!
+interface Vlan72
+ vrf forwarding UNTRUST
+ ip address 10.71.16.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:10::/64
+!
+interface Vlan73
+ vrf forwarding UNTRUST
+ ip address 10.71.17.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:11::/64
+!
+interface Vlan74
+ vrf forwarding UNTRUST
+ ip address 10.71.18.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:12::/64
+!
+interface Vlan75
+ vrf forwarding UNTRUST
+ ip address 10.71.19.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:13::/64
+!
+interface Vlan76
+ vrf forwarding UNTRUST
+ ip address 10.71.20.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:14::/64
+!
+interface Vlan77
+ vrf forwarding UNTRUST
+ ip address 10.71.21.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:15::/64
+!
+interface Vlan78
+ vrf forwarding UNTRUST
+ ip address 10.71.22.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:16::/64
+!
+interface Vlan79
+ vrf forwarding UNTRUST
+ ip address 10.71.23.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:17::/64
+!
+interface Vlan100
+ vrf forwarding MANAGEMENT
+ ip address 10.81.5.1 255.255.255.0
+ ipv6 address 2001:DB8:1009:5::/64
+!
+interface Vlan105
+ vrf forwarding QUARANTINE
+ ip address 10.91.5.1 255.255.255.0
+ ipv6 address 2001:DB8:1010:5::/64
+!
+interface Vlan110
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.14.1 255.255.255.0
+ standby 110 priority 90
+ ipv6 address 2001:DB8:1011:E::/64
+!
+interface Vlan111
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.15.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:F::/64
+!
+interface Vlan112
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.16.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:10::/64
+!
+interface Vlan113
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.17.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:11::/64
+!
+interface Vlan114
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.18.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:12::/64
+!
+interface Vlan115
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.19.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:13::/64
+!
+interface Vlan116
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.20.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:14::/64
+!
+interface Vlan117
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.21.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:15::/64
+!
+interface Vlan118
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.22.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:16::/64
+!
+interface Vlan119
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.23.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:17::/64
+!
+interface Vlan120
+ vrf forwarding INET
+ ip address 10.111.5.1 255.255.255.0
+ ipv6 address 2001:DB8:1012:5::/64
+!
+interface Vlan121
+ vrf forwarding BACKUP
+ ip address 10.121.5.1 255.255.255.0
+ ipv6 address 2001:DB8:1013:5::/64
+!
+router ospf 1
+ router-id 100.127.0.3
+ area 0 authentication message-digest
+ mpls traffic-eng area 0
+!
+router bgp 65001
+ bgp router-id 100.127.0.3
+ bgp log-neighbor-changes
+ neighbor EUCSOFT peer-group
+ neighbor EUCSOFT remote-as 65001
+ neighbor EUCSOFT description ** EUCSOFT **
+ neighbor EUCSOFT update-source Loopback0
+ neighbor 100.127.0.5 remote-as 65001
+ neighbor 100.127.0.5 peer-group EUCSOFT
+ neighbor 100.127.0.5 update-source Loopback0
+ neighbor 100.127.0.6 peer-group EUCSOFT
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 2
+  neighbor EUCSOFT send-community both
+  neighbor 100.127.0.5 activate
+  neighbor 100.127.0.6 activate
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 2
+  neighbor EUCSOFT send-community both
+  neighbor 100.127.0.5 activate
+  neighbor 100.127.0.6 activate
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family vpnv6
+  bgp nexthop trigger delay 2
+  neighbor EUCSOFT send-community both
+  neighbor 100.127.0.5 activate
+  neighbor 100.127.0.6 activate
+ exit-address-family
+ !
+ address-family ipv4 vrf ADMINISTRATION
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf ADMINISTRATION
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf BACKUP
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf BACKUP
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf CLIENTS
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+  maximum-paths ibgp 2
+ exit-address-family
+ !
+ address-family ipv6 vrf CLIENTS
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf GUEST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf GUEST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf INET
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf INET
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf MANAGEMENT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf MANAGEMENT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf MEDARBEJDER
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf MEDARBEJDER
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf PRINT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf PRINT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf QUARANTINE
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf QUARANTINE
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf SEMITRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf SEMITRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf TEKNIK
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf TEKNIK
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf TRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf TRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf UNTRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf UNTRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+!
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+!
+end

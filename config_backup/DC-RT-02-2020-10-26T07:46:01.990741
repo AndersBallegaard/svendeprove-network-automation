@@ -1,0 +1,690 @@
+Building configuration...
+
+  
+Current configuration : 14579 bytes
+!
+version 15.8
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname DC-RT-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition ADMINISTRATION
+ rd 100.127.0.8:1011
+ route-target export 65001:1011
+ route-target import 65001:1011
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition BACKUP
+ rd 100.127.0.8:1013
+ route-target export 65001:1013
+ route-target import 65001:1013
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition CLIENTS
+ rd 100.127.0.8:1001
+ route-target export 65001:1001
+ route-target import 65001:1001
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition GUEST
+ rd 100.127.0.8:1002
+ route-target export 65001:1002
+ route-target import 65001:1002
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition INET
+ rd 100.127.0.8:1012
+ route-target export 65001:1012
+ route-target import 65001:1012
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition MANAGEMENT
+ rd 100.127.0.8:1009
+ route-target export 65001:1009
+ route-target import 65001:1009
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition MEDARBEJDER
+ rd 100.127.0.8:1003
+ route-target export 65001:1003
+ route-target import 65001:1003
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition PRINT
+ rd 100.127.0.8:1004
+ route-target export 65001:1004
+ route-target import 65001:1004
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition QUARANTINE
+ rd 100.127.0.8:1010
+ route-target export 65001:1010
+ route-target import 65001:1010
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition SEMITRUST
+ rd 100.127.0.8:1007
+ route-target export 65001:1007
+ route-target import 65001:1007
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition TEKNIK
+ rd 100.127.0.8:1005
+ route-target export 65001:1005
+ route-target import 65001:1005
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition TRUST
+ rd 100.127.0.8:1006
+ route-target export 65001:1006
+ route-target import 65001:1006
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition UNTRUST
+ rd 100.127.0.8:1008
+ route-target export 65001:1008
+ route-target import 65001:1008
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain name net.eucsoft.com
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+mpls label protocol ldp
+mpls ldp session protection
+mpls ldp igp sync holddown 100
+!
+!
+!
+!
+username netscript privilege 15 secret 5 $1$SP2s$0./fQv6WmnRZmsDY.Ki/.1
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 100.127.0.8 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Loopback10
+ vrf forwarding CLIENTS
+ ip address 10.1.12.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:3::/64
+ ipv6 address 2001:DB8:1001:B::/64
+ ipv6 address 2001:DB8:1001:E::/64
+ ipv6 address 2001:DB8:1001:17::/64
+ ipv6 address 2001:DB8:1001:18::/64
+!
+interface Loopback20
+ vrf forwarding GUEST
+ ip address 10.11.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:3::/64
+ ipv6 address 2001:DB8:1002:B::/64
+ ipv6 address 2001:DB8:1002:E::/64
+ ipv6 address 2001:DB8:1002:17::/64
+ ipv6 address 2001:DB8:1002:18::/64
+!
+interface Loopback30
+ vrf forwarding MEDARBEJDER
+ ip address 10.21.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:3::/64
+ ipv6 address 2001:DB8:1003:B::/64
+ ipv6 address 2001:DB8:1003:E::/64
+ ipv6 address 2001:DB8:1003:17::/64
+ ipv6 address 2001:DB8:1003:18::/64
+!
+interface Loopback40
+ vrf forwarding PRINT
+ ip address 10.31.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1004:2::/64
+ ipv6 address 2001:DB8:1004:3::/64
+ ipv6 address 2001:DB8:1004:5::/64
+ ipv6 address 2001:DB8:1004:6::/64
+!
+interface Loopback41
+ vrf forwarding TEKNIK
+ ip address 10.41.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1005:2::/64
+ ipv6 address 2001:DB8:1005:3::/64
+ ipv6 address 2001:DB8:1005:5::/64
+ ipv6 address 2001:DB8:1005:6::/64
+!
+interface Loopback50
+ vrf forwarding TRUST
+ ip address 10.51.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:3::/64
+ ipv6 address 2001:DB8:1006:B::/64
+ ipv6 address 2001:DB8:1006:E::/64
+ ipv6 address 2001:DB8:1006:17::/64
+ ipv6 address 2001:DB8:1006:18::/64
+!
+interface Loopback60
+ vrf forwarding SEMITRUST
+ ip address 10.61.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:3::/64
+ ipv6 address 2001:DB8:1007:B::/64
+ ipv6 address 2001:DB8:1007:17::/64
+ ipv6 address 2001:DB8:1007:18::/64
+!
+interface Loopback70
+ vrf forwarding UNTRUST
+ ip address 10.71.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:3::/64
+ ipv6 address 2001:DB8:1008:B::/64
+ ipv6 address 2001:DB8:1008:17::/64
+ ipv6 address 2001:DB8:1008:18::/64
+!
+interface Loopback100
+ vrf forwarding MANAGEMENT
+ ip address 10.81.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1009:2::/64
+ ipv6 address 2001:DB8:1009:3::/64
+ ipv6 address 2001:DB8:1009:5::/64
+ ipv6 address 2001:DB8:1009:6::/64
+!
+interface Loopback105
+ vrf forwarding QUARANTINE
+ ip address 10.91.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1010:2::/64
+ ipv6 address 2001:DB8:1010:3::/64
+ ipv6 address 2001:DB8:1010:5::/64
+ ipv6 address 2001:DB8:1010:6::/64
+!
+interface Loopback110
+ vrf forwarding ADMINISTRATION
+ ip address 10.101.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:3::/64
+ ipv6 address 2001:DB8:1011:B::/64
+ ipv6 address 2001:DB8:1011:17::/64
+ ipv6 address 2001:DB8:1011:18::/64
+!
+interface Loopback120
+ vrf forwarding INET
+ ip address 10.111.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1012:2::/64
+ ipv6 address 2001:DB8:1012:3::/64
+ ipv6 address 2001:DB8:1012:5::/64
+ ipv6 address 2001:DB8:1012:6::/64
+!
+interface Loopback121
+ vrf forwarding BACKUP
+ ip address 10.121.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1013:2::/64
+ ipv6 address 2001:DB8:1013:3::/64
+ ipv6 address 2001:DB8:1013:5::/64
+ ipv6 address 2001:DB8:1013:6::/64
+!
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ ip address 10.255.0.23 255.255.255.254
+ ip ospf message-digest-key 1 md5 OSPF 
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ mpls ip
+!
+interface GigabitEthernet0/5
+ ip address 10.255.0.25 255.255.255.254
+ ip ospf message-digest-key 1 md5 OSPF
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ mpls ip
+!
+interface GigabitEthernet0/6
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/7
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/8
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/9
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/10
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/11
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/12
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/13
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/14
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/15
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ mpls ldp sync
+ mpls traffic-eng area 0
+ router-id 100.127.0.8
+ area 0 authentication message-digest
+!
+router bgp 65001
+ bgp router-id 100.127.0.8
+ bgp log-neighbor-changes
+ neighbor EUCSOFT peer-group
+ neighbor EUCSOFT remote-as 65001
+ neighbor EUCSOFT description ** EUCSOFT **
+ neighbor EUCSOFT update-source Loopback0
+ neighbor 100.127.0.5 remote-as 65001
+ neighbor 100.127.0.5 peer-group EUCSOFT
+ neighbor 100.127.0.5 update-source Loopback0
+ neighbor 100.127.0.6 peer-group EUCSOFT
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 2
+  neighbor EUCSOFT send-community both
+  neighbor 100.127.0.5 activate
+  neighbor 100.127.0.6 activate
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 2
+  neighbor EUCSOFT send-community both
+  neighbor 100.127.0.5 activate
+  neighbor 100.127.0.6 activate
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family vpnv6
+  bgp nexthop trigger delay 2
+  neighbor EUCSOFT send-community both
+  neighbor 100.127.0.5 activate
+  neighbor 100.127.0.6 activate
+ exit-address-family
+ !
+ address-family ipv4 vrf ADMINISTRATION
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf ADMINISTRATION
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf BACKUP
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf BACKUP
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf CLIENTS
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf CLIENTS
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf GUEST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf GUEST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf INET
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf INET
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf MANAGEMENT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf MANAGEMENT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf MEDARBEJDER
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf MEDARBEJDER
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf PRINT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf PRINT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf QUARANTINE
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf QUARANTINE
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf SEMITRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf SEMITRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf TEKNIK
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf TEKNIK
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf TRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf TRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv4 vrf UNTRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf UNTRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh version 2
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+no scheduler allocate
+!
+end
