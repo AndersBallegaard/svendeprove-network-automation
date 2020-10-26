@@ -102,6 +102,24 @@ class CiscoIOSDevice(base.Device):
     def backup_config(self):
         self.create_conn()
         runn_conf = self.conn.send_command("show run")
-        with open(f"config_backup/{self.hostname}-{datetime.now().isoformat()}", "w") as f:
+        with open(f"config_mgmt/backup_{self.hostname}-{datetime.now().isoformat()}", "w") as f:
             f.write(runn_conf)
+        self.conn.disconnect()
+    
+    def state_collection(self):
+        collection_points = {
+            "ip_route": "show ip route",
+            "ipv6_route": "show ipv6 route",
+            "version": "show version",
+            "routing": "show ip protocols"
+        }
+        self.create_conn()
+        for function, command in collection_points.items():
+            runn_conf = self.conn.send_command(command)
+            with open(f"config_mgmt/{function}_{self.hostname}-{datetime.now().isoformat()}", "w") as f:
+                f.write(runn_conf)
+        self.conn.disconnect()
+
+
+
 

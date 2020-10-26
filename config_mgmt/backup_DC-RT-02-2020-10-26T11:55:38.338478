@@ -2,121 +2,160 @@
 Building configuration...
 
   
-Current configuration : 10236 bytes
+Current configuration : 14579 bytes
 !
 version 15.8
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname DC-RT-01
+hostname DC-RT-02
 !
 boot-start-marker
 boot-end-marker
 !
 !
 vrf definition ADMINISTRATION
- rd 100.127.0.7:1011
+ rd 100.127.0.8:1011
  route-target export 65001:1011
  route-target import 65001:1011
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition BACKUP
- rd 100.127.0.7:1013
+ rd 100.127.0.8:1013
  route-target export 65001:1013
  route-target import 65001:1013
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition CLIENTS
- rd 100.127.0.7:1001
+ rd 100.127.0.8:1001
  route-target export 65001:1001
  route-target import 65001:1001
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition GUEST
- rd 100.127.0.7:1002
+ rd 100.127.0.8:1002
  route-target export 65001:1002
  route-target import 65001:1002
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition INET
- rd 100.127.0.7:1012
+ rd 100.127.0.8:1012
  route-target export 65001:1012
  route-target import 65001:1012
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition MANAGEMENT
- rd 100.127.0.7:1009
+ rd 100.127.0.8:1009
  route-target export 65001:1009
  route-target import 65001:1009
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition MEDARBEJDER
- rd 100.127.0.7:1003
+ rd 100.127.0.8:1003
  route-target export 65001:1003
  route-target import 65001:1003
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition PRINT
- rd 100.127.0.7:1004
+ rd 100.127.0.8:1004
  route-target export 65001:1004
  route-target import 65001:1004
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition QUARANTINE
- rd 100.127.0.7:1010
+ rd 100.127.0.8:1010
  route-target export 65001:1010
  route-target import 65001:1010
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition SEMITRUST
- rd 100.127.0.7:1007
+ rd 100.127.0.8:1007
  route-target export 65001:1007
  route-target import 65001:1007
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition TEKNIK
- rd 100.127.0.7:1005
+ rd 100.127.0.8:1005
  route-target export 65001:1005
  route-target import 65001:1005
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition TRUST
- rd 100.127.0.7:1006
+ rd 100.127.0.8:1006
  route-target export 65001:1006
  route-target import 65001:1006
  !
  address-family ipv4
  exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
 !
 vrf definition UNTRUST
- rd 100.127.0.7:1008
+ rd 100.127.0.8:1008
  route-target export 65001:1008
  route-target import 65001:1008
  !
  address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
  exit-address-family
 !
 !
@@ -141,7 +180,8 @@ mmi snmp-timeout 180
 !
 ip domain name net.eucsoft.com
 ip cef
-no ipv6 cef
+ipv6 unicast-routing
+ipv6 cef
 !
 multilink bundle-name authenticated
 mpls label protocol ldp
@@ -151,7 +191,7 @@ mpls ldp igp sync holddown 100
 !
 !
 !
-username netscript privilege 15 secret 5 $1$GS2y$XgYAKZyIaCTx/c0xSW0TI/
+username netscript privilege 15 secret 5 $1$SP2s$0./fQv6WmnRZmsDY.Ki/.1
 !
 redundancy
 !
@@ -170,60 +210,116 @@ redundancy
 !
 !
 interface Loopback0
- ip address 100.127.0.7 255.255.255.255
+ ip address 100.127.0.8 255.255.255.255
  ip ospf 1 area 0
 !
 interface Loopback10
  vrf forwarding CLIENTS
- ip address 10.1.2.1 255.255.255.0
+ ip address 10.1.12.1 255.255.255.0
+ ipv6 address 2001:DB8:1001:3::/64
+ ipv6 address 2001:DB8:1001:B::/64
+ ipv6 address 2001:DB8:1001:E::/64
+ ipv6 address 2001:DB8:1001:17::/64
+ ipv6 address 2001:DB8:1001:18::/64
 !
 interface Loopback20
  vrf forwarding GUEST
- ip address 10.11.1.1 255.255.255.0
+ ip address 10.11.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1002:3::/64
+ ipv6 address 2001:DB8:1002:B::/64
+ ipv6 address 2001:DB8:1002:E::/64
+ ipv6 address 2001:DB8:1002:17::/64
+ ipv6 address 2001:DB8:1002:18::/64
 !
 interface Loopback30
  vrf forwarding MEDARBEJDER
- ip address 10.21.1.1 255.255.255.0
+ ip address 10.21.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1003:3::/64
+ ipv6 address 2001:DB8:1003:B::/64
+ ipv6 address 2001:DB8:1003:E::/64
+ ipv6 address 2001:DB8:1003:17::/64
+ ipv6 address 2001:DB8:1003:18::/64
 !
 interface Loopback40
  vrf forwarding PRINT
- ip address 10.31.1.1 255.255.255.0
+ ip address 10.31.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1004:2::/64
+ ipv6 address 2001:DB8:1004:3::/64
+ ipv6 address 2001:DB8:1004:5::/64
+ ipv6 address 2001:DB8:1004:6::/64
 !
 interface Loopback41
  vrf forwarding TEKNIK
- ip address 10.41.1.1 255.255.255.0
+ ip address 10.41.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1005:2::/64
+ ipv6 address 2001:DB8:1005:3::/64
+ ipv6 address 2001:DB8:1005:5::/64
+ ipv6 address 2001:DB8:1005:6::/64
 !
 interface Loopback50
  vrf forwarding TRUST
- ip address 10.51.1.1 255.255.255.0
+ ip address 10.51.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1006:3::/64
+ ipv6 address 2001:DB8:1006:B::/64
+ ipv6 address 2001:DB8:1006:E::/64
+ ipv6 address 2001:DB8:1006:17::/64
+ ipv6 address 2001:DB8:1006:18::/64
 !
 interface Loopback60
  vrf forwarding SEMITRUST
- ip address 10.61.1.1 255.255.255.0
+ ip address 10.61.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1007:3::/64
+ ipv6 address 2001:DB8:1007:B::/64
+ ipv6 address 2001:DB8:1007:17::/64
+ ipv6 address 2001:DB8:1007:18::/64
 !
 interface Loopback70
  vrf forwarding UNTRUST
- ip address 10.71.1.1 255.255.255.0
+ ip address 10.71.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1008:3::/64
+ ipv6 address 2001:DB8:1008:B::/64
+ ipv6 address 2001:DB8:1008:17::/64
+ ipv6 address 2001:DB8:1008:18::/64
 !
 interface Loopback100
  vrf forwarding MANAGEMENT
- ip address 10.81.1.1 255.255.255.0
+ ip address 10.81.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1009:2::/64
+ ipv6 address 2001:DB8:1009:3::/64
+ ipv6 address 2001:DB8:1009:5::/64
+ ipv6 address 2001:DB8:1009:6::/64
 !
 interface Loopback105
  vrf forwarding QUARANTINE
- ip address 10.91.1.1 255.255.255.0
+ ip address 10.91.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1010:2::/64
+ ipv6 address 2001:DB8:1010:3::/64
+ ipv6 address 2001:DB8:1010:5::/64
+ ipv6 address 2001:DB8:1010:6::/64
 !
 interface Loopback110
  vrf forwarding ADMINISTRATION
- ip address 10.101.1.1 255.255.255.0
+ ip address 10.101.11.1 255.255.255.0
+ ipv6 address 2001:DB8:1011:3::/64
+ ipv6 address 2001:DB8:1011:B::/64
+ ipv6 address 2001:DB8:1011:17::/64
+ ipv6 address 2001:DB8:1011:18::/64
 !
 interface Loopback120
  vrf forwarding INET
- ip address 10.111.1.1 255.255.255.0
+ ip address 10.111.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1012:2::/64
+ ipv6 address 2001:DB8:1012:3::/64
+ ipv6 address 2001:DB8:1012:5::/64
+ ipv6 address 2001:DB8:1012:6::/64
 !
 interface Loopback121
  vrf forwarding BACKUP
- ip address 10.121.1.1 255.255.255.0
+ ip address 10.121.2.1 255.255.255.0
+ ipv6 address 2001:DB8:1013:2::/64
+ ipv6 address 2001:DB8:1013:3::/64
+ ipv6 address 2001:DB8:1013:5::/64
+ ipv6 address 2001:DB8:1013:6::/64
 !
 interface GigabitEthernet0/0
  no ip address
@@ -254,22 +350,24 @@ interface GigabitEthernet0/3
  media-type rj45
 !
 interface GigabitEthernet0/4
- ip address 10.255.0.21 255.255.255.254
+ ip address 10.255.0.23 255.255.255.254
  ip ospf message-digest-key 1 md5 OSPF 
  ip ospf network point-to-point
  ip ospf 1 area 0
  duplex auto
  speed auto
  media-type rj45
+ mpls ip
 !
 interface GigabitEthernet0/5
- ip address 10.255.0.19 255.255.255.254
- ip ospf message-digest-key 1 md5 OSPF 
+ ip address 10.255.0.25 255.255.255.254
+ ip ospf message-digest-key 1 md5 OSPF
  ip ospf network point-to-point
  ip ospf 1 area 0
  duplex auto
  speed auto
  media-type rj45
+ mpls ip
 !
 interface GigabitEthernet0/6
  no ip address
@@ -342,12 +440,13 @@ interface GigabitEthernet0/15
  media-type rj45
 !
 router ospf 1
+ mpls ldp sync
  mpls traffic-eng area 0
- router-id 100.127.0.7
+ router-id 100.127.0.8
  area 0 authentication message-digest
 !
 router bgp 65001
- bgp router-id 100.127.0.7
+ bgp router-id 100.127.0.8
  bgp log-neighbor-changes
  neighbor EUCSOFT peer-group
  neighbor EUCSOFT remote-as 65001
@@ -357,7 +456,6 @@ router bgp 65001
  neighbor 100.127.0.5 peer-group EUCSOFT
  neighbor 100.127.0.5 update-source Loopback0
  neighbor 100.127.0.6 peer-group EUCSOFT
- neighbor 100.127.0.6 update-source Loopback0
  !
  address-family ipv4
   bgp nexthop trigger delay 2
@@ -375,7 +473,20 @@ router bgp 65001
   maximum-paths 2
  exit-address-family
  !
+ address-family vpnv6
+  bgp nexthop trigger delay 2
+  neighbor EUCSOFT send-community both
+  neighbor 100.127.0.5 activate
+  neighbor 100.127.0.6 activate
+ exit-address-family
+ !
  address-family ipv4 vrf ADMINISTRATION
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf ADMINISTRATION
   redistribute connected
   redistribute static
   maximum-paths 2
@@ -387,7 +498,19 @@ router bgp 65001
   maximum-paths 2
  exit-address-family
  !
+ address-family ipv6 vrf BACKUP
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
  address-family ipv4 vrf CLIENTS
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf CLIENTS
   redistribute connected
   redistribute static
   maximum-paths 2
@@ -399,7 +522,19 @@ router bgp 65001
   maximum-paths 2
  exit-address-family
  !
+ address-family ipv6 vrf GUEST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
  address-family ipv4 vrf INET
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf INET
   redistribute connected
   redistribute static
   maximum-paths 2
@@ -411,7 +546,19 @@ router bgp 65001
   maximum-paths 2
  exit-address-family
  !
+ address-family ipv6 vrf MANAGEMENT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
  address-family ipv4 vrf MEDARBEJDER
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf MEDARBEJDER
   redistribute connected
   redistribute static
   maximum-paths 2
@@ -423,7 +570,19 @@ router bgp 65001
   maximum-paths 2
  exit-address-family
  !
+ address-family ipv6 vrf PRINT
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
  address-family ipv4 vrf QUARANTINE
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf QUARANTINE
   redistribute connected
   redistribute static
   maximum-paths 2
@@ -435,7 +594,19 @@ router bgp 65001
   maximum-paths 2
  exit-address-family
  !
+ address-family ipv6 vrf SEMITRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
  address-family ipv4 vrf TEKNIK
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf TEKNIK
   redistribute connected
   redistribute static
   maximum-paths 2
@@ -447,7 +618,19 @@ router bgp 65001
   maximum-paths 2
  exit-address-family
  !
+ address-family ipv6 vrf TRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
  address-family ipv4 vrf UNTRUST
+  redistribute connected
+  redistribute static
+  maximum-paths 2
+ exit-address-family
+ !
+ address-family ipv6 vrf UNTRUST
   redistribute connected
   redistribute static
   maximum-paths 2

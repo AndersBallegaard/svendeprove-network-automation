@@ -1,0 +1,57 @@
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is not set
+
+      1.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        1.1.1.2/31 is directly connected, GigabitEthernet0/3
+L        1.1.1.3/32 is directly connected, GigabitEthernet0/3
+      2.0.0.0/31 is subnetted, 1 subnets
+S        2.2.2.2 [1/0] via 1.1.1.2
+      10.0.0.0/8 is variably subnetted, 19 subnets, 5 masks
+O E1     10.111.100.0/30 [110/12] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                         [110/12] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O E1     10.135.0.0/16 [110/12] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                       [110/12] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+C        10.250.0.0/24 is directly connected, Tunnel0
+L        10.250.0.1/32 is directly connected, Tunnel0
+O        10.255.0.0/31 [110/2] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                       [110/2] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        10.255.0.2/31 [110/2] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        10.255.0.4/31 [110/2] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        10.255.0.6/31 [110/2] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+O        10.255.0.8/31 [110/2] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+C        10.255.0.10/31 is directly connected, GigabitEthernet0/0
+L        10.255.0.11/32 is directly connected, GigabitEthernet0/0
+C        10.255.0.12/31 is directly connected, GigabitEthernet0/1
+L        10.255.0.13/32 is directly connected, GigabitEthernet0/1
+O        10.255.0.14/31 [110/2] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        10.255.0.16/31 [110/2] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+O        10.255.0.18/31 [110/2] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        10.255.0.20/31 [110/2] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+O        10.255.0.22/31 [110/2] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        10.255.0.24/31 [110/2] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+      100.0.0.0/32 is subnetted, 9 subnets
+O        100.127.0.1 [110/2] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        100.127.0.2 [110/2] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+O        100.127.0.3 [110/3] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                     [110/3] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        100.127.0.4 [110/3] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                     [110/3] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+C        100.127.0.5 is directly connected, Loopback0
+O        100.127.0.6 [110/3] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                     [110/3] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        100.127.0.7 [110/3] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                     [110/3] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        100.127.0.8 [110/3] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                     [110/3] via 10.255.0.10, 3d05h, GigabitEthernet0/0
+O        100.127.0.9 [110/1001] via 10.250.0.2, 3d05h, Tunnel0
+O     192.168.254.0/24 [110/3] via 10.255.0.12, 3d05h, GigabitEthernet0/1
+                       [110/3] via 10.255.0.10, 3d05h, GigabitEthernet0/0

@@ -1,0 +1,65 @@
+*** IP Routing is NSF aware ***
+
+Routing Protocol is "application"
+  Sending updates every 0 seconds
+  Invalid after 0 seconds, hold down 0, flushed after 0
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Maximum path: 32
+  Routing for Networks:
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+  Distance: (default is 4)
+
+Routing Protocol is "ospf 1"
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Router ID 100.127.0.5
+  Number of areas in this router is 1. 1 normal 0 stub 0 nssa
+  Maximum path: 4
+  Routing for Networks:
+  Routing on Interfaces Configured Explicitly (Area 0):
+    Loopback0
+    GigabitEthernet0/1
+    GigabitEthernet0/0
+    Tunnel0
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+    100.127.0.9          110      3d05h
+    100.127.0.8          110      3d05h
+    100.127.0.3          110      3d05h
+    100.127.0.2          110      3d05h
+    100.127.0.1          110      3d05h
+    100.127.0.7          110      3d05h
+    100.127.0.6          110      3d05h
+    100.127.0.4          110      3d05h
+  Distance: (default is 110)
+
+Routing Protocol is "nhrp"
+  Maximum path: 32
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+  Distance: (default is 250)
+
+Routing Protocol is "bgp 65001"
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Route Reflector for address family IPv4 Unicast with the cluster-id 0.0.0.1, 5 clients
+  Route Reflector for address family VPNv4 Unicast with the cluster-id 0.0.0.1, 5 clients
+  Route Reflector for address family VPNv6 Unicast with the cluster-id 0.0.0.1, 5 clients
+  IGP synchronization is disabled
+  Automatic route summarization is disabled
+  Neighbor(s):
+    Address          FiltIn FiltOut DistIn DistOut Weight RouteMap
+    100.127.0.3                                          
+    100.127.0.4                                          
+    100.127.0.7                                          
+    100.127.0.8                                          
+    100.127.0.9                                          
+  Maximum path: 2
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+    100.127.0.8          200      3d05h
+    100.127.0.3          200      3d05h
+    100.127.0.4          200      3d05h
+  Distance: external 20 internal 200 local 200

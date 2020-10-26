@@ -25,3 +25,4 @@ if __name__ == "__main__":
     # net.add("100.127.0.3", "DIST-01", username, password)
     for device in net.devices:
         device.backup_config()
+        device.state_collection()
