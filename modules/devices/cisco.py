@@ -111,7 +111,9 @@ class CiscoIOSDevice(base.Device):
             "ip_route": "show ip route",
             "ipv6_route": "show ipv6 route",
             "version": "show version",
-            "routing": "show ip protocols"
+            "routing": "show ip protocols",
+            "bgp_v4": "sh bgp vpnv4 unicast all",
+            "bgp_v6": "sh bgp vpnv6 unicast all"
         }
         self.create_conn()
         for function, command in collection_points.items():

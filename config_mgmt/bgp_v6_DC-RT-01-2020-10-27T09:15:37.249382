@@ -1,0 +1,49 @@
+
+BGP table version is 14, local router ID is 100.127.0.7
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal, 
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter, 
+              x best-external, a additional-path, c RIB-compressed, 
+              t secondary path, 
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+     Network          Next Hop            Metric LocPrf Weight Path
+Route Distinguisher: 100.127.0.7:1001 (default for vrf CLIENTS)
+ *>   2001:DB8:1001:1B::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1002 (default for vrf GUEST)
+ *>   2001:DB8:1002:1B::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1003 (default for vrf MEDARBEJDER)
+ *>   2001:DB8:1003:1B::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1004 (default for vrf PRINT)
+ *>   2001:DB8:1004:9::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1005 (default for vrf TEKNIK)
+ *>   2001:DB8:1005:9::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1006 (default for vrf TRUST)
+ *>   2001:DB8:1006:1B::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1007 (default for vrf SEMITRUST)
+ *>   2001:DB8:1007:1B::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1008 (default for vrf UNTRUST)
+ *>   2001:DB8:1008:1B::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1009 (default for vrf MANAGEMENT)
+ *>   2001:DB8:1009:9::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1010 (default for vrf QUARANTINE)
+ *>   2001:DB8:1010:9::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1011 (default for vrf ADMINISTRATION)
+ *>   2001:DB8:1011:1B::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1012 (default for vrf INET)
+ *>   2001:DB8:1012:9::/64
+                       ::                       0         32768 ?
+Route Distinguisher: 100.127.0.7:1013 (default for vrf BACKUP)
+ *>   2001:DB8:1013:9::/64
+                       ::                       0         32768 ?
